@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "themes",
+  "info": {
+    "singularName": "theme",
+    "pluralName": "themes",
+    "displayName": "Theme"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "colors": {
+      "type": "component",
+      "repeatable": false,
+      "required": true,
+      "component": "theme.colors"
+    },
+    "typography": {
+      "type": "component",
+      "repeatable": false,
+      "required": true,
+      "component": "theme.typography"
+    },
+    "spacing": {
+      "type": "component",
+      "repeatable": false,
+      "required": true,
+      "component": "theme.spacing"
+    },
+    "radius": {
+      "type": "component",
+      "repeatable": false,
+      "required": true,
+      "component": "theme.radius"
+    },
+    "shadow": {
+      "type": "component",
+      "repeatable": false,
+      "required": true,
+      "component": "theme.shadow"
+    }
+  }
+}

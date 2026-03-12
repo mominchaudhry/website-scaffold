@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_faqs",
+  "info": {
+    "displayName": "FAQ"
+  },
+  "options": {},
+  "attributes": {
+    "heading": { "type": "string", "required": true },
+    "items": { "type": "component", "repeatable": true, "required": true, "component": "sections.faq-item" },
+    "showInHeader": { "type": "boolean", "default": false },
+    "navLabel": { "type": "string" },
+    "anchorId": { "type": "string" },
+    "alignment": { "type": "enumeration", "enum": ["left", "center", "right"], "default": "left" },
+    "maxWidth": { "type": "enumeration", "enum": ["sm", "md", "lg", "full"], "default": "lg" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "normal", "large"], "default": "normal" }
+  }
+}

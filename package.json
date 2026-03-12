@@ -1,0 +1,25 @@
+{
+  "name": "website-scaffold",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.6.0",
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:web": "turbo dev --filter=@scaffold/web",
+    "dev:cms": "turbo dev --filter=@scaffold/cms",
+    "dev:local": "bash ./scripts/dev-local.sh",
+    "setup:env": "bash ./scripts/setup-local-env.sh",
+    "infra:up": "docker compose -f docker-compose.selfhost.yml up -d",
+    "infra:down": "docker compose -f docker-compose.selfhost.yml down",
+    "build": "turbo build",
+    "build:web": "turbo build --filter=@scaffold/web",
+    "build:cms": "turbo build --filter=@scaffold/cms",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck",
+    "lint": "turbo lint"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.2"
+  }
+}

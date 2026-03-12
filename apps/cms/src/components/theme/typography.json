@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_theme_typographies",
+  "info": {
+    "displayName": "Theme Typography"
+  },
+  "options": {},
+  "attributes": {
+    "fontFamilyBase": { "type": "string", "default": "'Source Sans 3', sans-serif", "required": true },
+    "fontFamilyHeading": { "type": "string", "default": "'Space Grotesk', sans-serif", "required": true },
+    "baseSize": { "type": "string", "default": "16px", "required": true },
+    "headingWeight": { "type": "integer", "default": 700, "required": true },
+    "bodyWeight": { "type": "integer", "default": 400, "required": true }
+  }
+}

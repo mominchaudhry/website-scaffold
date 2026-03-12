@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_theme_radii",
+  "info": {
+    "displayName": "Theme Radius"
+  },
+  "options": {},
+  "attributes": {
+    "small": { "type": "string", "default": "0.375rem", "required": true },
+    "medium": { "type": "string", "default": "0.75rem", "required": true },
+    "large": { "type": "string", "default": "1.25rem", "required": true }
+  }
+}

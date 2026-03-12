@@ -1,0 +1,11 @@
+{
+  "collectionName": "components_theme_shadows",
+  "info": {
+    "displayName": "Theme Shadow"
+  },
+  "options": {},
+  "attributes": {
+    "card": { "type": "string", "default": "0 10px 25px rgba(15, 23, 42, 0.08)", "required": true },
+    "elevated": { "type": "string", "default": "0 16px 40px rgba(15, 23, 42, 0.14)", "required": true }
+  }
+}

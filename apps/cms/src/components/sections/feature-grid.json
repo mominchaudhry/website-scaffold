@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_sections_feature_grids",
+  "info": {
+    "displayName": "Feature Grid"
+  },
+  "options": {},
+  "attributes": {
+    "heading": { "type": "string", "required": true },
+    "body": { "type": "text" },
+    "columns": { "type": "enumeration", "enum": ["2", "3", "4"], "default": "3", "required": true },
+    "items": { "type": "component", "repeatable": true, "required": true, "component": "sections.feature-item" },
+    "showInHeader": { "type": "boolean", "default": false },
+    "navLabel": { "type": "string" },
+    "anchorId": { "type": "string" },
+    "alignment": { "type": "enumeration", "enum": ["left", "center", "right"], "default": "left" },
+    "maxWidth": { "type": "enumeration", "enum": ["sm", "md", "lg", "full"], "default": "lg" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "normal", "large"], "default": "normal" }
+  }
+}

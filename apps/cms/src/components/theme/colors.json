@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_theme_colors",
+  "info": {
+    "displayName": "Theme Colors"
+  },
+  "options": {},
+  "attributes": {
+    "background": { "type": "string", "customField": "global::hex-color", "default": "#f9fafb", "required": true },
+    "surface": { "type": "string", "customField": "global::hex-color", "default": "#ffffff", "required": true },
+    "text": { "type": "string", "customField": "global::hex-color", "default": "#111827", "required": true },
+    "mutedText": { "type": "string", "customField": "global::hex-color", "default": "#4b5563", "required": true },
+    "primary": { "type": "string", "customField": "global::hex-color", "default": "#0f766e", "required": true },
+    "secondary": { "type": "string", "customField": "global::hex-color", "default": "#f97316", "required": true },
+    "border": { "type": "string", "customField": "global::hex-color", "default": "#d1d5db", "required": true }
+  }
+}

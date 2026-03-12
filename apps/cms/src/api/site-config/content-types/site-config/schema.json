@@ -1,0 +1,37 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_configs",
+  "info": {
+    "singularName": "site-config",
+    "pluralName": "site-configs",
+    "displayName": "Site Config"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "siteMode": {
+      "type": "enumeration",
+      "enum": ["SPA", "MULTI_PAGE"],
+      "required": true,
+      "default": "MULTI_PAGE"
+    },
+    "defaultTheme": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::theme.theme"
+    },
+    "homepage": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::page.page"
+    },
+    "seoDefaultTitle": {
+      "type": "string"
+    },
+    "seoDefaultDescription": {
+      "type": "text"
+    }
+  }
+}

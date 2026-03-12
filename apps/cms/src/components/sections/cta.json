@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_ctas",
+  "info": {
+    "displayName": "CTA"
+  },
+  "options": {},
+  "attributes": {
+    "heading": { "type": "string", "required": true },
+    "body": { "type": "text" },
+    "action": { "type": "component", "repeatable": false, "required": true, "component": "shared.link" },
+    "showInHeader": { "type": "boolean", "default": false },
+    "navLabel": { "type": "string" },
+    "anchorId": { "type": "string" },
+    "alignment": { "type": "enumeration", "enum": ["left", "center", "right"], "default": "left" },
+    "maxWidth": { "type": "enumeration", "enum": ["sm", "md", "lg", "full"], "default": "lg" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "normal", "large"], "default": "normal" }
+  }
+}

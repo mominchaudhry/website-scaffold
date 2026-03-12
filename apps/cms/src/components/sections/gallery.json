@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_sections_galleries",
+  "info": {
+    "displayName": "Gallery"
+  },
+  "options": {},
+  "attributes": {
+    "heading": { "type": "string" },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": ["images"]
+    },
+    "showInHeader": { "type": "boolean", "default": false },
+    "navLabel": { "type": "string" },
+    "anchorId": { "type": "string" },
+    "alignment": { "type": "enumeration", "enum": ["left", "center", "right"], "default": "left" },
+    "maxWidth": { "type": "enumeration", "enum": ["sm", "md", "lg", "full"], "default": "lg" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "normal", "large"], "default": "normal" }
+  }
+}

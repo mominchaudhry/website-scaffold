@@ -18,10 +18,12 @@ export function HeroSectionBlock({ section, anchorId }: HeroSectionProps) {
   return (
     <section id={anchorId} className={`${sectionClassName(section)} hero-section`}>
       <div className={`${sectionContainerClassName(section)} hero-shell`}>
-        <p className="eyebrow hero-badge">
-          <Heart className="hero-badge-icon" />
-          <span>{section.eyebrow || "Mission Driven Organization"}</span>
-        </p>
+        {section.eyebrow ? (
+          <p className="eyebrow hero-badge">
+            <Heart className="hero-badge-icon" />
+            <span>{section.eyebrow}</span>
+          </p>
+        ) : null}
         <h1>{section.heading}</h1>
         {section.body ? <p className="lead">{section.body}</p> : null}
         <div className="actions">

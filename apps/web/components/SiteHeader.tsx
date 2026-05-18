@@ -8,9 +8,10 @@ import { useEffect, useMemo, useState } from "react";
 
 interface SiteHeaderProps {
   links: HeaderLink[];
+  siteName: string;
 }
 
-export function SiteHeader({ links }: SiteHeaderProps) {
+export function SiteHeader({ links, siteName }: SiteHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -45,7 +46,7 @@ export function SiteHeader({ links }: SiteHeaderProps) {
         <div className="header-top">
           <Link className="brand" href="/" onClick={() => setIsMenuOpen(false)}>
             <HeartHandshake className="brand-icon" />
-            <span>My Organization</span>
+            <span>{siteName}</span>
           </Link>
           <button
             type="button"

@@ -2,9 +2,13 @@ export type SiteMode = "SPA" | "MULTI_PAGE";
 
 export interface SiteConfig {
   id: number;
+  siteName: string;
   siteMode: SiteMode;
   seoDefaultTitle?: string | null;
   seoDefaultDescription?: string | null;
+  footerTagline?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
   defaultTheme?: Theme | null;
   homepage?: PageSummary | null;
   publishedAt?: string | null;

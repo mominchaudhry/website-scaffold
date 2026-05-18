@@ -236,12 +236,16 @@ async function upsertSiteConfig(strapi, { homepageRef, themeRef, publishedAt }) 
   }
 
   const siteConfigData = {
+    siteName: DEFAULT_SITE_TITLE,
     siteMode: "SPA",
     defaultTheme: themeRef,
     homepage: homepageRef,
     seoDefaultTitle: DEFAULT_SITE_TITLE,
     seoDefaultDescription:
       "A mission-driven organization improving lives through practical and effective programs.",
+    footerTagline: "Building practical solutions that improve lives worldwide.",
+    contactEmail: "contact@example.com",
+    contactPhone: "+1 (555) 010-2900",
     publishedAt,
   };
 

@@ -13,13 +13,15 @@ export function GallerySectionBlock({ section, anchorId }: GallerySectionProps) 
   return (
     <section id={anchorId} className={sectionClassName(section)}>
       <div className={sectionContainerClassName(section)}>
-        {section.heading ? (
+        {section.heading || section.navLabel ? (
           <div className="section-head">
-            <p className="section-kicker">
-              <Images className="section-kicker-icon" />
-              <span>Gallery</span>
-            </p>
-            <h2 className="section-title">{section.heading}</h2>
+            {section.navLabel ? (
+              <p className="section-kicker">
+                <Images className="section-kicker-icon" />
+                <span>{section.navLabel}</span>
+              </p>
+            ) : null}
+            {section.heading ? <h2 className="section-title">{section.heading}</h2> : null}
           </div>
         ) : null}
         <div className="gallery-grid">

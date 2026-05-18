@@ -15,10 +15,12 @@ export function RichTextSectionBlock({ section, anchorId }: RichTextSectionProps
     <section id={anchorId} className={sectionClassName(section)}>
       <div className={`${sectionContainerClassName(section)} prose-wrap`}>
         <div className="section-head">
-          <p className="section-kicker">
-            <Icon className="section-kicker-icon" />
-            <span>{section.navLabel || "Overview"}</span>
-          </p>
+          {section.navLabel ? (
+            <p className="section-kicker">
+              <Icon className="section-kicker-icon" />
+              <span>{section.navLabel}</span>
+            </p>
+          ) : null}
           {section.heading ? <h2 className="section-title">{section.heading}</h2> : null}
         </div>
         <div dangerouslySetInnerHTML={{ __html: section.content }} />

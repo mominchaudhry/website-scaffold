@@ -15,10 +15,12 @@ export function CtaSectionBlock({ section, anchorId }: CtaSectionProps) {
     <section id={anchorId} className={sectionClassName(section)}>
       <div className={`${sectionContainerClassName(section)} cta-shell`}>
         <div className="section-head">
-          <p className="section-kicker">
-            <HandHeart className="section-kicker-icon" />
-            <span>{section.navLabel || "Call to Action"}</span>
-          </p>
+          {section.navLabel ? (
+            <p className="section-kicker">
+              <HandHeart className="section-kicker-icon" />
+              <span>{section.navLabel}</span>
+            </p>
+          ) : null}
           <h2 className="section-title">{section.heading}</h2>
         </div>
         {section.body ? <p>{section.body}</p> : null}

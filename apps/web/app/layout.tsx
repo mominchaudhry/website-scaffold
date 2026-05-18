@@ -6,8 +6,8 @@ import { getSiteShellData } from "@/lib/shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Website Scaffold",
-  description: "Strapi driven website scaffold",
+  title: "My Business",
+  description: "Welcome to our website",
 };
 
 export default async function RootLayout({
@@ -17,19 +17,26 @@ export default async function RootLayout({
 }>) {
   const preview = (await draftMode()).isEnabled;
   const shell = await getSiteShellData(preview);
+  const { siteConfig } = shell;
 
   return (
     <html lang="en" style={shell.themeVariables as React.CSSProperties}>
+      <head>
+        <title>{siteConfig.seoDefaultTitle || siteConfig.siteName}</title>
+        <meta
+          name="description"
+          content={siteConfig.seoDefaultDescription || `Welcome to ${siteConfig.siteName}`}
+        />
+      </head>
       <body>
-        <SiteHeader links={shell.headerLinks} />
+        <SiteHeader links={shell.headerLinks} siteName={siteConfig.siteName} />
         <main>{children}</main>
         <SiteFooter
           links={shell.headerLinks}
-          title={shell.siteConfig.seoDefaultTitle || "Generic Business"}
-          description={
-            shell.siteConfig.seoDefaultDescription ||
-            "A modern, service-oriented business focused on quality, trust, and customer success."
-          }
+          siteName={siteConfig.siteName}
+          tagline={siteConfig.footerTagline || siteConfig.seoDefaultDescription || null}
+          contactEmail={siteConfig.contactEmail || null}
+          contactPhone={siteConfig.contactPhone || null}
         />
       </body>
     </html>

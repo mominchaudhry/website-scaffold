@@ -387,10 +387,14 @@ export async function getSiteConfig(preview = false): Promise<SiteConfig> {
 
     return {
       id: 0,
+      siteName: "My Business",
       siteMode: "MULTI_PAGE",
       defaultTheme: latestTheme || fallbackTheme,
       seoDefaultTitle: null,
       seoDefaultDescription: null,
+      footerTagline: null,
+      contactEmail: null,
+      contactPhone: null,
       homepage: null,
     };
   }
@@ -403,9 +407,13 @@ export async function getSiteConfig(preview = false): Promise<SiteConfig> {
 
   return {
     id: Number(site.id ?? 0),
+    siteName: typeof site.siteName === "string" && site.siteName.trim() ? site.siteName.trim() : "My Business",
     siteMode: (site.siteMode as SiteConfig["siteMode"]) || "MULTI_PAGE",
     seoDefaultTitle: (site.seoDefaultTitle as string | null | undefined) ?? null,
     seoDefaultDescription: (site.seoDefaultDescription as string | null | undefined) ?? null,
+    footerTagline: (site.footerTagline as string | null | undefined) ?? null,
+    contactEmail: (site.contactEmail as string | null | undefined) ?? null,
+    contactPhone: (site.contactPhone as string | null | undefined) ?? null,
     defaultTheme: fallbackThemeFromThemes || mergeTheme(themeEntry),
     homepage: homepageEntry
       ? {

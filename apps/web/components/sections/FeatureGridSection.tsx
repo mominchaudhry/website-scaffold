@@ -16,10 +16,12 @@ export function FeatureGridSectionBlock({ section, anchorId }: FeatureGridSectio
     <section id={anchorId} className={sectionClassName(section)}>
       <div className={sectionContainerClassName(section)}>
         <div className="section-head">
-          <p className="section-kicker">
-            <Users className="section-kicker-icon" />
-            <span>{section.navLabel || "Team"}</span>
-          </p>
+          {section.navLabel ? (
+            <p className="section-kicker">
+              <Users className="section-kicker-icon" />
+              <span>{section.navLabel}</span>
+            </p>
+          ) : null}
           <h2 className="section-title">{section.heading}</h2>
         </div>
         {section.body ? <p className="lead">{section.body}</p> : null}
@@ -29,7 +31,7 @@ export function FeatureGridSectionBlock({ section, anchorId }: FeatureGridSectio
               <span className="feature-icon-wrap">
                 <Sparkles className="feature-icon" />
               </span>
-              <h3>{item.title || `Feature ${index + 1}`}</h3>
+              <h3>{item.title}</h3>
               {item.description ? <p>{item.description}</p> : null}
             </article>
           ))}

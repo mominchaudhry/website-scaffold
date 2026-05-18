@@ -14,10 +14,14 @@ export interface SiteShellData {
 export async function getSiteShellData(preview = false): Promise<SiteShellData> {
   const fallbackSiteConfig: SiteConfig = {
     id: 0,
+    siteName: "My Business",
     siteMode: "MULTI_PAGE",
     defaultTheme: fallbackTheme,
     seoDefaultTitle: null,
     seoDefaultDescription: null,
+    footerTagline: null,
+    contactEmail: null,
+    contactPhone: null,
     homepage: null,
     publishedAt: null,
   };

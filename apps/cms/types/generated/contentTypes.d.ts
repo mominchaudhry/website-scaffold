@@ -387,6 +387,9 @@ export interface ApiSiteConfigSiteConfig extends Struct.SingleTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    siteName: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'My Business'>;
     siteMode: Schema.Attribute.Enumeration<['SPA', 'MULTI_PAGE']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'MULTI_PAGE'>;
@@ -394,6 +397,9 @@ export interface ApiSiteConfigSiteConfig extends Struct.SingleTypeSchema {
     homepage: Schema.Attribute.Relation<'oneToOne', 'api::page.page'>;
     seoDefaultTitle: Schema.Attribute.String;
     seoDefaultDescription: Schema.Attribute.Text;
+    footerTagline: Schema.Attribute.Text;
+    contactEmail: Schema.Attribute.String;
+    contactPhone: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

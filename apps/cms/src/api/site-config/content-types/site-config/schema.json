@@ -11,6 +11,11 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "siteName": {
+      "type": "string",
+      "required": true,
+      "default": "My Business"
+    },
     "siteMode": {
       "type": "enumeration",
       "enum": ["SPA", "MULTI_PAGE"],
@@ -32,6 +37,15 @@
     },
     "seoDefaultDescription": {
       "type": "text"
+    },
+    "footerTagline": {
+      "type": "text"
+    },
+    "contactEmail": {
+      "type": "string"
+    },
+    "contactPhone": {
+      "type": "string"
     }
   }
 }

@@ -16,7 +16,8 @@
     "build:cms": "turbo build --filter=@scaffold/cms",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
-    "lint": "turbo lint"
+    "lint": "turbo lint",
+    "new:section": "node ./scripts/new-section.mjs"
   },
   "devDependencies": {
     "turbo": "^2.5.0",

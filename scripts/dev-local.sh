@@ -4,9 +4,16 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-LOCAL_DB_NAME="website_scaffold"
-LOCAL_DB_URL="postgres://postgres:postgres@127.0.0.1:5432/${LOCAL_DB_NAME}"
-LOCAL_ADMIN_DB_URL="postgres://postgres:postgres@127.0.0.1:5432/postgres"
+PROJECT_DIR_NAME="$(basename "$ROOT_DIR")"
+PROJECT_SLUG="$(echo "$PROJECT_DIR_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/^_*//' | sed 's/__*/_/g' | sed 's/_*$//')"
+PROJECT_SLUG="${PROJECT_SLUG:-scaffold}"
+BUCKET_SLUG="$(echo "$PROJECT_DIR_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/^-*//' | sed 's/--*/-/g' | sed 's/-*$//')"
+BUCKET_SLUG="${BUCKET_SLUG:-scaffold}"
+
+LOCAL_DB_NAME="${PROJECT_SLUG}"
+DEFAULT_PG_PORT="5432"
+DEFAULT_MINIO_PORT="9000"
+DEFAULT_MINIO_CONSOLE_PORT="9001"
 DEFAULT_WEB_PORT="3000"
 DEFAULT_CMS_PORT="1337"
 
@@ -39,22 +46,31 @@ upsert_env_file() {
   mv "$tmp_file" "$file"
 }
 
+_ALLOCATED_PORTS_FILE="$(mktemp)"
+
 is_port_in_use() {
   local port="$1"
 
+  if grep -qw "$port" "$_ALLOCATED_PORTS_FILE" 2>/dev/null; then
+    return 0
+  fi
+
   if command -v lsof >/dev/null 2>&1; then
-    lsof -iTCP:"$port" -sTCP:LISTEN -n -P >/dev/null 2>&1
-    return $?
+    if lsof -iTCP:"$port" -sTCP:LISTEN -n -P >/dev/null 2>&1; then
+      return 0
+    fi
   fi
 
   if command -v ss >/dev/null 2>&1; then
-    ss -ltn "( sport = :$port )" | grep -q LISTEN
-    return $?
+    if ss -ltn "( sport = :$port )" | grep -q LISTEN; then
+      return 0
+    fi
   fi
 
   if command -v netstat >/dev/null 2>&1; then
-    netstat -an | grep -E "LISTEN|LISTENING" | grep -q "[\\.:]${port}[[:space:]]"
-    return $?
+    if netstat -an 2>/dev/null | grep -E "LISTEN" | grep -q "[\\.:]${port}[[:space:]]"; then
+      return 0
+    fi
   fi
 
   return 1
@@ -71,6 +87,7 @@ pick_available_port() {
       if [[ "$port" != "$preferred" ]]; then
         echo "[dev:local] Port ${preferred} is busy for ${service_name}; using ${port} instead." >&2
       fi
+      echo "$port" >> "$_ALLOCATED_PORTS_FILE"
       echo "$port"
       return 0
     fi
@@ -81,10 +98,23 @@ pick_available_port() {
   return 1
 }
 
+PG_PORT="$(pick_available_port "$DEFAULT_PG_PORT" "Postgres")"
+MINIO_PORT="$(pick_available_port "$DEFAULT_MINIO_PORT" "MinIO")"
+MINIO_CONSOLE_PORT="$(pick_available_port "$DEFAULT_MINIO_CONSOLE_PORT" "MinIO Console")"
 WEB_PORT="$(pick_available_port "$DEFAULT_WEB_PORT" "Next.js")"
 CMS_PORT="$(pick_available_port "$DEFAULT_CMS_PORT" "Strapi")"
+
+LOCAL_DB_URL="postgres://postgres:postgres@127.0.0.1:${PG_PORT}/${LOCAL_DB_NAME}"
+LOCAL_ADMIN_DB_URL="postgres://postgres:postgres@127.0.0.1:${PG_PORT}/postgres"
+
 WEB_URL="http://127.0.0.1:${WEB_PORT}"
 CMS_URL="http://127.0.0.1:${CMS_PORT}"
+
+export POSTGRES_DB="$LOCAL_DB_NAME"
+export POSTGRES_PORT="$PG_PORT"
+export MINIO_PORT="$MINIO_PORT"
+export MINIO_CONSOLE_PORT="$MINIO_CONSOLE_PORT"
+export MINIO_BUCKET="$BUCKET_SLUG"
 
 upsert_env_file "apps/cms/.env" "DATABASE_CLIENT" "postgres"
 upsert_env_file "apps/cms/.env" "DATABASE_URL" "$LOCAL_DB_URL"
@@ -96,8 +126,8 @@ upsert_env_file "apps/cms/.env" "REVALIDATE_WEBHOOK_URL" "${WEB_URL}/api/revalid
 upsert_env_file "apps/cms/.env" "S3_ACCESS_KEY_ID" "minioadmin"
 upsert_env_file "apps/cms/.env" "S3_ACCESS_SECRET" "minioadmin"
 upsert_env_file "apps/cms/.env" "S3_REGION" "us-east-1"
-upsert_env_file "apps/cms/.env" "S3_BUCKET" "website-scaffold"
-upsert_env_file "apps/cms/.env" "S3_ENDPOINT" "http://127.0.0.1:9000"
+upsert_env_file "apps/cms/.env" "S3_BUCKET" "$BUCKET_SLUG"
+upsert_env_file "apps/cms/.env" "S3_ENDPOINT" "http://127.0.0.1:${MINIO_PORT}"
 upsert_env_file "apps/cms/.env" "S3_FORCE_PATH_STYLE" "true"
 
 upsert_env_file "apps/web/.env.local" "NEXT_PUBLIC_SITE_URL" "$WEB_URL"
@@ -108,6 +138,7 @@ if ! docker info >/dev/null 2>&1; then
   exit 1
 fi
 
+pnpm infra:down 2>/dev/null || true
 pnpm infra:up
 
 echo "Waiting for Postgres to become ready..."
@@ -135,8 +166,8 @@ export REVALIDATE_WEBHOOK_URL="${WEB_URL}/api/revalidate"
 export S3_ACCESS_KEY_ID="minioadmin"
 export S3_ACCESS_SECRET="minioadmin"
 export S3_REGION="us-east-1"
-export S3_BUCKET="website-scaffold"
-export S3_ENDPOINT="http://127.0.0.1:9000"
+export S3_BUCKET="$BUCKET_SLUG"
+export S3_ENDPOINT="http://127.0.0.1:${MINIO_PORT}"
 export S3_FORCE_PATH_STYLE="true"
 
 export NEXT_PUBLIC_SITE_URL="$WEB_URL"
@@ -147,6 +178,8 @@ LOCAL_ADMIN_DB_URL="$LOCAL_ADMIN_DB_URL" \
 LOCAL_APP_DB_URL="$LOCAL_DB_URL" \
 pnpm --filter @scaffold/cms exec node ../../scripts/ensure-local-db.mjs
 
+echo "[dev:local] Project: ${PROJECT_SLUG} (db: ${LOCAL_DB_NAME}, bucket: ${BUCKET_SLUG})"
+echo "[dev:local] Postgres: 127.0.0.1:${PG_PORT} | MinIO: 127.0.0.1:${MINIO_PORT}"
 echo "[dev:local] Strapi URL: ${CMS_URL}"
 echo "[dev:local] Web URL: ${WEB_URL}"
 
@@ -157,6 +190,7 @@ cleanup() {
   if [[ -n "${WEB_PID:-}" ]]; then
     kill "$WEB_PID" >/dev/null 2>&1 || true
   fi
+  rm -f "$_ALLOCATED_PORTS_FILE"
 }
 
 trap cleanup EXIT INT TERM

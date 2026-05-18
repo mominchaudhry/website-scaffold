@@ -17,7 +17,8 @@
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "lint": "turbo lint",
-    "new:section": "node ./scripts/new-section.mjs"
+    "new:section": "node ./scripts/new-section.mjs",
+    "setup": "node ./scripts/setup.mjs"
   },
   "devDependencies": {
     "turbo": "^2.5.0",

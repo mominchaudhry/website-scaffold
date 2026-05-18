@@ -1,6 +1,6 @@
 # Website Scaffold (Next.js + Strapi 5)
 
-Forkable monorepo scaffold for CMS-driven websites. Fork it, customise the content in Strapi, and deploy your own site.
+Monorepo scaffold for CMS-driven websites. Create your own project from this template, customise the content in Strapi, and deploy your own site.
 
 ## Prerequisites
 
@@ -10,13 +10,38 @@ Forkable monorepo scaffold for CMS-driven websites. Fork it, customise the conte
 
 ## Quick start
 
-```bash
-# 1. Clone and install
-git clone https://github.com/<your-username>/website-scaffold.git
-cd website-scaffold
-pnpm install
+### Option A: GitHub Template (recommended)
 
-# 2. Make sure Docker is running, then start everything:
+1. Click **[Use this template](../../generate)** at the top of this repo to create your own copy.
+2. Clone your new repo and run the setup wizard:
+
+```bash
+git clone https://github.com/<your-username>/<your-repo>.git
+cd <your-repo>
+pnpm setup
+```
+
+### Option B: degit (no GitHub account needed)
+
+```bash
+npx degit mominchaudhry/website-scaffold my-site
+cd my-site
+pnpm setup
+```
+
+### Option C: Manual clone
+
+```bash
+git clone https://github.com/mominchaudhry/website-scaffold.git my-site
+cd my-site
+pnpm setup
+```
+
+---
+
+Once setup is complete, make sure Docker is running, then start everything:
+
+```bash
 pnpm dev:local
 ```
 
@@ -57,6 +82,7 @@ packages/contracts  Shared types and Zod schemas
 
 | Script | Description |
 |--------|-------------|
+| `pnpm setup` | Rename packages and reinit git (run once after cloning) |
 | `pnpm dev:local` | Full local dev with infra (recommended) |
 | `pnpm dev:web` | Start Next.js only |
 | `pnpm dev:cms` | Start Strapi only |

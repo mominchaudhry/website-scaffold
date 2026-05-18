@@ -45,7 +45,7 @@ export function SiteHeader({ links }: SiteHeaderProps) {
         <div className="header-top">
           <Link className="brand" href="/" onClick={() => setIsMenuOpen(false)}>
             <HeartHandshake className="brand-icon" />
-            <span>Momin Enterprises</span>
+            <span>My Organization</span>
           </Link>
           <button
             type="button"

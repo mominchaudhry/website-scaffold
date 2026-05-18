@@ -1,9 +1,9 @@
 const PAGE_UID = "api::page.page";
 const THEME_UID = "api::theme.theme";
 const SITE_CONFIG_UID = "api::site-config.site-config";
-const DEFAULT_THEME_SLUG = "momin-enterprises";
+const DEFAULT_THEME_SLUG = "starter-theme";
 const DEFAULT_HOME_SLUG = "home";
-const DEFAULT_SITE_TITLE = "Momin Enterprises";
+const DEFAULT_SITE_TITLE = "My Organization";
 
 function nowIso() {
   return new Date().toISOString();
@@ -76,8 +76,8 @@ function pageData() {
       {
         __component: "sections.hero",
         eyebrow: "Top Secret Organization",
-        heading: "Momin Enterprises",
-        body: "A quiet force for global good. We build practical systems that help communities thrive.",
+        heading: "My Organization",
+        body: "We build practical systems that help communities thrive.",
         primaryAction: {
           label: "See Admission",
           href: "#admission",
@@ -97,7 +97,7 @@ function pageData() {
         __component: "sections.rich-text",
         heading: "Who We Are",
         content:
-          "<p>Momin Enterprises is a mission-first organization operating with discretion, discipline, and long-term commitment. We partner with communities, institutions, and local teams to build resilient programs that create measurable positive impact.</p>",
+          "<p>We are a mission-first organization committed to long-term impact. We partner with communities, institutions, and local teams to build resilient programs that create measurable positive change.</p>",
         showInHeader: true,
         navLabel: "About",
         anchorId: "about",
@@ -123,7 +123,7 @@ function pageData() {
         body: "Applications for partnership and membership are open. Learn eligibility, timelines, and onboarding requirements.",
         action: {
           label: "Request Admission Details",
-          href: "mailto:admission@mominenterprises.example",
+          href: "mailto:admission@example.com",
           target: "_self",
         },
         showInHeader: true,
@@ -164,8 +164,8 @@ function pageData() {
         heading: "Contact",
         body: "Reach our coordination desk for partnerships, media requests, or general inquiries.",
         action: {
-          label: "Email contact@mominenterprises.example",
-          href: "mailto:contact@mominenterprises.example",
+          label: "Email contact@example.com",
+          href: "mailto:contact@example.com",
           target: "_self",
         },
         showInHeader: true,
@@ -241,7 +241,7 @@ async function upsertSiteConfig(strapi, { homepageRef, themeRef, publishedAt }) 
     homepage: homepageRef,
     seoDefaultTitle: DEFAULT_SITE_TITLE,
     seoDefaultDescription:
-      "Momin Enterprises is a mission-driven organization improving lives through practical, trusted, and quietly effective programs.",
+      "A mission-driven organization improving lives through practical and effective programs.",
     publishedAt,
   };
 
@@ -296,7 +296,7 @@ async function seedDefaultContent(strapi) {
       publishedAt,
     });
 
-    strapi.log.info("[seed] Created default single-page business content for Momin Enterprises.");
+    strapi.log.info("[seed] Created default single-page business content.");
   } catch (error) {
     strapi.log.warn(`[seed] Failed to seed default content: ${error instanceof Error ? error.message : "unknown error"}`);
     strapi.log.warn("[seed] Continuing startup without default seed data.");

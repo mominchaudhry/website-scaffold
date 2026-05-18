@@ -21,7 +21,7 @@ describe("getSiteConfig", () => {
         okResponse({
           id: 1,
           siteMode: "SPA",
-          seoDefaultTitle: "Momin Enterprises",
+          seoDefaultTitle: "My Organization",
           seoDefaultDescription: "Classified mission.",
         })
       )
@@ -98,13 +98,13 @@ describe("getPages", () => {
           showInHeader: true,
           headerLabel: "Home",
           isHome: true,
-          seoTitle: "Momin Enterprises",
+          seoTitle: "My Organization",
           seoDescription: "Classified mission.",
           sections: [
             {
               id: 10,
               __component: "sections.hero",
-              heading: "Momin Enterprises",
+              heading: "My Organization",
               primaryAction: {
                 id: 1,
                 label: "See Admission",
@@ -125,7 +125,7 @@ describe("getPages", () => {
               action: {
                 id: 3,
                 label: "Request Admission Details",
-                href: "mailto:admission@mominenterprises.example",
+                href: "mailto:admission@example.com",
                 target: "_self",
               },
             },

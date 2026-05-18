@@ -35,7 +35,7 @@ export function SiteFooter({ links, title, description }: SiteFooterProps) {
           <h3 className="footer-heading">Contact</h3>
           <p className="footer-description footer-contact-row">
             <Mail className="footer-contact-icon" />
-            <span>contact@mominenterprises.example</span>
+            <span>contact@example.com</span>
           </p>
           <p className="footer-description footer-contact-row">
             <Phone className="footer-contact-icon" />

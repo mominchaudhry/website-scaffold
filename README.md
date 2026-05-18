@@ -1,73 +1,107 @@
 # Website Scaffold (Next.js + Strapi 5)
 
-Forkable monorepo scaffold for CMS-driven websites.
+Forkable monorepo scaffold for CMS-driven websites. Fork it, customise the content in Strapi, and deploy your own site.
 
-## What this provides
-- Next.js frontend (`apps/web`) with TypeScript and App Router.
-- Strapi 5 backend (`apps/cms`) with dynamic section-driven pages.
-- Auto header generation from pages (`MULTI_PAGE`) or sections (`SPA`).
-- Theme tokens in Strapi mapped to CSS variables in Next.js.
-- Draft preview endpoint and on-demand cache revalidation.
-- S3-compatible media provider support (MinIO/S3/R2).
+## Prerequisites
 
-## Monorepo layout
-- `apps/web`: frontend deployed to Vercel.
-- `apps/cms`: backend deployed to Railway.
-- `packages/contracts`: shared types and Zod schemas.
+- **Node.js** >= 18
+- **pnpm** >= 10 (`corepack enable` if needed)
+- **Docker** (for local Postgres and MinIO)
 
 ## Quick start
-1. Install dependencies:
-```bash
-pnpm install
-```
-2. Ensure Docker is running.
 
-3. Run everything locally with one command:
 ```bash
+# 1. Clone and install
+git clone https://github.com/<your-username>/website-scaffold.git
+cd website-scaffold
+pnpm install
+
+# 2. Make sure Docker is running, then start everything:
 pnpm dev:local
 ```
-This command will:
-- create `apps/web/.env.local` and `apps/cms/.env` if missing
-- enforce local-safe values in those env files for DB/Strapi URLs on each run
-- auto-select free local ports for Strapi (prefers `1337`) and web (prefers `3000`) if defaults are busy
-- start local Postgres + MinIO with Docker
-- wait until Postgres is ready
-- auto-create the CMS database if missing
-- auto-seed a generic business single-page starter (first run, when no pages exist)
-- force local runtime env overrides for DB and Strapi URL (so stale remote `.env` values do not break local startup)
-- start Strapi and Next.js, then print the selected URLs
 
-4. Stop local infra when done:
+`pnpm dev:local` handles the full local setup automatically:
+
+- Creates `apps/web/.env.local` and `apps/cms/.env` from examples if missing
+- Enforces local-safe values for DB and Strapi URLs on each run
+- Auto-selects free ports for Strapi (prefers 1337) and Next.js (prefers 3000)
+- Starts local Postgres + MinIO via Docker
+- Waits for Postgres, creates the CMS database if missing
+- Seeds a starter single-page site on first run (when no pages exist)
+- Starts Strapi and Next.js, then prints the selected URLs
+
+When you're done:
+
 ```bash
 pnpm infra:down
 ```
 
-5. Manual mode (optional):
+### Manual mode (optional)
+
 ```bash
-pnpm setup:env
-pnpm infra:up
-pnpm dev:web
-pnpm dev:cms
+pnpm setup:env      # Create .env files from examples
+pnpm infra:up       # Start Postgres + MinIO
+pnpm dev:cms        # Start Strapi
+pnpm dev:web        # Start Next.js (in another terminal)
 ```
 
-## Core scripts
-- `pnpm dev:local`
-- `pnpm dev:web`
-- `pnpm dev:cms`
-- `pnpm setup:env`
-- `pnpm infra:up`
-- `pnpm infra:down`
-- `pnpm build:web`
-- `pnpm build:cms`
-- `pnpm test`
-- `pnpm typecheck`
+## Monorepo layout
 
-## Key behavior
-- Primary nav is **derived**, not manually curated.
-- Unknown sections fail soft (render fallback + log warning).
-- Automatic publish revalidation: Strapi lifecycle hooks call Next `/api/revalidate` on publish/update/delete.
-- Base revalidation tags always include `cms`, `site-config`, `pages`, `themes` (plus `page:{slug}` / `theme:{id}` when available).
-- `REVALIDATE_SECRET` must match between `apps/web` and `apps/cms`, and `apps/cms` must set `REVALIDATE_WEBHOOK_URL`.
+```
+apps/web        Next.js frontend (App Router, TypeScript)
+apps/cms        Strapi 5 backend
+packages/contracts  Shared types and Zod schemas
+```
+
+## Available scripts
+
+| Script | Description |
+|--------|-------------|
+| `pnpm dev:local` | Full local dev with infra (recommended) |
+| `pnpm dev:web` | Start Next.js only |
+| `pnpm dev:cms` | Start Strapi only |
+| `pnpm setup:env` | Create `.env` files from examples |
+| `pnpm infra:up` | Start Docker services |
+| `pnpm infra:down` | Stop Docker services |
+| `pnpm build:web` | Production build for Next.js |
+| `pnpm build:cms` | Production build for Strapi |
+| `pnpm test` | Run tests |
+| `pnpm typecheck` | TypeScript type checking |
+| `pnpm lint` | Lint the codebase |
+
+## How it works
+
+- **Dynamic nav**: The primary navigation is derived from your pages and sections in Strapi, not manually curated.
+- **Theme tokens**: Colours, typography, spacing, and other design tokens are defined in Strapi and mapped to CSS variables in Next.js.
+- **Auto-revalidation**: Strapi lifecycle hooks call the Next.js `/api/revalidate` endpoint on publish/update/delete, so your site stays in sync.
+- **Draft preview**: A `/api/preview` endpoint lets editors preview unpublished content.
+- **Soft failure**: Unknown section types render a fallback component and log a warning instead of crashing the page.
+
+## Environment variables
+
+Both apps read their config from environment variables. See `apps/web/.env.example` and `apps/cms/.env.example` for the full list with defaults.
+
+Key variables to set for production:
+
+| Variable | App | Purpose |
+|----------|-----|---------|
+| `STRAPI_API_URL` | web | URL of your Strapi instance |
+| `STRAPI_PUBLIC_TOKEN` | web | Read-only API token for published content |
+| `STRAPI_PREVIEW_TOKEN` | web | API token with draft access |
+| `PREVIEW_SECRET` | both | Shared secret for draft preview |
+| `REVALIDATE_SECRET` | both | Shared secret for cache revalidation |
+| `REVALIDATE_WEBHOOK_URL` | cms | Next.js revalidation endpoint URL |
+| `DATABASE_URL` | cms | PostgreSQL connection string |
+| `S3_*` | cms | S3-compatible storage credentials |
 
 ## Deployment
-See [docs/deployment.md](./docs/deployment.md) for Vercel + Railway setup.
+
+See [docs/deployment.md](./docs/deployment.md) for Vercel + Railway setup instructions.
+
+## Contributing
+
+Contributions are welcome! Please open an issue to discuss what you'd like to change, or submit a pull request.
+
+## License
+
+MIT

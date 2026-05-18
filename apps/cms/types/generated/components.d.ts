@@ -1,5 +1,19 @@
 import type { Struct, Schema } from '@strapi/strapi';
 
+export interface SharedLink extends Struct.ComponentSchema {
+  collectionName: 'components_shared_links';
+  info: {
+    displayName: 'Link';
+    description: 'Reusable CTA link';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    href: Schema.Attribute.String & Schema.Attribute.Required;
+    target: Schema.Attribute.Enumeration<['_self', '_blank']> &
+      Schema.Attribute.DefaultTo<'_self'>;
+  };
+}
+
 export interface ThemeTypography extends Struct.ComponentSchema {
   collectionName: 'components_theme_typographies';
   info: {
@@ -109,20 +123,6 @@ export interface ThemeColors extends Struct.ComponentSchema {
       Schema.Attribute.Required &
       Schema.Attribute.CustomField<'global::hex-color'> &
       Schema.Attribute.DefaultTo<'#d1d5db'>;
-  };
-}
-
-export interface SharedLink extends Struct.ComponentSchema {
-  collectionName: 'components_shared_links';
-  info: {
-    displayName: 'Link';
-    description: 'Reusable CTA link';
-  };
-  attributes: {
-    label: Schema.Attribute.String & Schema.Attribute.Required;
-    href: Schema.Attribute.String & Schema.Attribute.Required;
-    target: Schema.Attribute.Enumeration<['_self', '_blank']> &
-      Schema.Attribute.DefaultTo<'_self'>;
   };
 }
 
@@ -283,12 +283,12 @@ export interface SectionsCta extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'shared.link': SharedLink;
       'theme.typography': ThemeTypography;
       'theme.spacing': ThemeSpacing;
       'theme.shadow': ThemeShadow;
       'theme.radius': ThemeRadius;
       'theme.colors': ThemeColors;
-      'shared.link': SharedLink;
       'sections.rich-text': SectionsRichText;
       'sections.hero': SectionsHero;
       'sections.gallery': SectionsGallery;
